@@ -8,8 +8,21 @@ fn tokenize(program: String) -> Vec<String> {
 enum LispVal {
     LispInt { x: i32 },
     LispFlt { x: f64 },
-    LispStr { s: String },
+    LispSym { s: String },
     LispList { l: Box<Vec<LispVal>> },
+}
+
+impl LispVal {
+    /// number, symbol, or string
+    fn atom(s: String) -> LispVal {
+        match s.parse::<i32>() {
+            Ok(x) => LispVal::LispInt { x: x } ,
+            Err(_) => match s.parse::<f64>() {
+                Ok(x) => LispVal::LispFlt { x: x},
+                Err(_) => LispVal::LispSym { s: s },
+            }
+        }
+    }
 }
 
 fn main() {
