@@ -4,6 +4,14 @@ fn tokenize(program: String) -> Vec<String> {
            .collect()
 }
 
+#[derive(Debug)]
+enum LispVal {
+    LispInt { x: i32 },
+    LispFlt { x: f64 },
+    LispStr { s: String },
+    LispList { l: Box<Vec<LispVal>> },
+}
+
 fn main() {
     println!("Hello, world!");
     let s = "(+ 1 1)".to_string();
