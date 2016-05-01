@@ -18,7 +18,11 @@ fn read_from_tokens(tokens: &mut Vec<String>) -> Result<Vec<LispVal>, String> {
             while tokens.get(0).unwrap() != ")" { // this line is probably Bad
                 vals.append(&mut read_from_tokens(tokens).unwrap()); // TODO this line is probably Bad too.
             }
-            tokens.pop(); // TODO -- this is the line that catches missing rparens. Try tokens.remove(0) wrapped in something that'll return a Result?
+            // TODO 
+            // in lis.py, this is the line that catches missing rparens. 
+            // (techincally, it's "tokens.pop(0) # pop off ')'")
+            // Try tokens.remove(0) wrapped in something that'll return a Result?
+            tokens.pop();
 
             let l = LispVal::LispList { l: Box::new(vals) };
             res = Ok(vec![l]);
