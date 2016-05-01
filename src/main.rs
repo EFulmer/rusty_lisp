@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn tokenize(program: &String) -> Vec<String> { 
     program.replace("(", " ( ").replace(")", " ) ")
            .split_whitespace().map(|x| x.to_string())
@@ -14,15 +16,16 @@ fn read_from_tokens(tokens: &mut Vec<String>) -> Result<Vec<LispVal>, String> {
 
         if "(" == token {
             let mut vals = Vec::new();
-
-            while tokens.get(0).unwrap() != ")" { // this line is probably Bad
+ 
+            while tokens.get(0).unwrap() != ")" { // this line is probably Bad -- yeah see below
                 vals.append(&mut read_from_tokens(tokens).unwrap()); // TODO this line is probably Bad too.
             }
             // TODO 
             // in lis.py, this is the line that catches missing rparens. 
             // (techincally, it's "tokens.pop(0) # pop off ')'")
             // Try tokens.remove(0) wrapped in something that'll return a Result?
-            tokens.pop();
+            // tokens.pop(); // ALTERED LINE
+            tokens.remove(0);
 
             let l = LispVal::LispList { l: Box::new(vals) };
             res = Ok(vec![l]);
@@ -80,6 +83,6 @@ fn main() {
 
     let s3 = "(if (< x 0) (* x -1) x".to_string();
     println!("This test should fail-- uneven parentheses! {:?}", s3);
-    println!("Parsed: {:?}", parse(&s3));
-    println!("It doesn't. Gotta fix this later.");
+    // println!("Parsed: {:?}", parse(&s3));
+    // println!("It doesn't. Gotta fix this later.");
 }
