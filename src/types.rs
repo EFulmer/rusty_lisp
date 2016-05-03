@@ -4,14 +4,17 @@ use std::collections::HashMap;
 /// HashTable. Exported as a type synonym here.
 pub type Env = HashMap<String, LispVal>;
 
+pub type LispResult = Result<LispVal, String>;
+
 /// The set of types this Lisp supports.
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub enum LispVal {
     /// An integral numeric value. Currently 32-bit precision.
     LispInt   { x: i32                        },
     /// A floating-point numeric value. Currently 64-bit precision; precision 
     /// unlikely to change.
     LispFloat { x: f64                        },
+    LispBool  { b: bool                       },
     /// Symbol, used for representing both language constructs like `if`, `define`, 
     /// `lambda`, and user-defined symbols of the form `'sym-name`.
     LispSym   { s: String                     },
